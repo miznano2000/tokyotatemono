@@ -1,0 +1,2781 @@
+:root {
+    /* ライトモード カラーパレット */
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --accent-color: #3b82f6;
+    --background-color: #f8fafc;
+    --surface-color: #ffffff;
+    --surface-secondary: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* リスクレベルカラー */
+    --risk-high: #dc2626;
+    --risk-medium: #ea580c;
+    --risk-low: #16a34a;
+    --risk-high-bg: #fef2f2;
+    --risk-medium-bg: #fff7ed;
+    --risk-low-bg: #f0fdf4;
+
+    /* レイアウト */
+    --sidebar-width: 280px;
+    --header-height: 70px;
+    --border-radius: 12px;
+    --spacing-unit: 1rem;
+}
+
+[data-theme="dark"] {
+    /* ダークモード カラーパレット */
+    --primary-color: #60a5fa;
+    --secondary-color: #3b82f6;
+    --accent-color: #93c5fd;
+    --background-color: #0f172a;
+    --surface-color: #1e293b;
+    --surface-secondary: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --border-color: #475569;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+
+    /* ダークモード リスクカラー */
+    --risk-high-bg: #450a0a;
+    --risk-medium-bg: #431407;
+    --risk-low-bg: #052e16;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ダッシュボードレイアウト */
+.dashboard-container {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar main";
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ヘッダー */
+.header {
+    grid-area: header;
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 var(--spacing-unit);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-unit);
+}
+
+.quarter-selector {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--surface-color);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.theme-toggle {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* サイドバー */
+.sidebar {
+    grid-area: sidebar;
+    background: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    padding: var(--spacing-unit);
+}
+
+.nav-menu {
+    list-style: none;
+}
+
+.nav-menu li {
+    margin-bottom: 0.5rem;
+}
+
+.nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* メインコンテンツ */
+.main-content {
+    grid-area: main;
+    overflow-y: auto;
+    padding: var(--spacing-unit);
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.section-header h2 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+}
+
+.last-updated {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* カード */
+.card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: calc(var(--spacing-unit) * 1.5);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    margin-bottom: var(--spacing-unit);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 16px var(--shadow-color);
+    transform: translateY(-2px);
+}
+
+/* サマリーカード */
+.summary-cards {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-unit);
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--spacing-unit);
+    background: var(--surface-secondary);
+    border-radius: 8px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* リスク評価基準（新しい説明書きスタイル） */
+.evaluation-criteria-section {
+    margin: calc(var(--spacing-unit) * 2) 0;
+    padding: 0;
+}
+
+.evaluation-criteria-section h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.criteria-explanations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--spacing-unit) * 2);
+}
+
+.criteria-category h4 {
+    margin-bottom: var(--spacing-unit);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.criteria-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.criteria-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+}
+
+.criteria-item.high {
+    color: var(--risk-high);
+}
+
+.criteria-item.medium {
+    color: var(--risk-medium);
+}
+
+.criteria-item.low {
+    color: var(--risk-low);
+}
+
+.criteria-item .level-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.criteria-item.high .level-indicator {
+    background: var(--risk-high);
+}
+
+.criteria-item.medium .level-indicator {
+    background: var(--risk-medium);
+}
+
+.criteria-item.low .level-indicator {
+    background: var(--risk-low);
+}
+
+.criteria-text {
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+/* リスク評価基準（旧スタイル - 削除予定） */
+.criteria-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--spacing-unit) * 1.5);
+}
+
+.criteria-section h4 {
+    margin-bottom: var(--spacing-unit);
+    color: var(--text-primary);
+}
+
+.risk-level {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: var(--spacing-unit);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.risk-level.high {
+    background: var(--risk-high-bg);
+    border-left: 4px solid var(--risk-high);
+}
+
+.risk-level.medium {
+    background: var(--risk-medium-bg);
+    border-left: 4px solid var(--risk-medium);
+}
+
+.risk-level.low {
+    background: var(--risk-low-bg);
+    border-left: 4px solid var(--risk-low);
+}
+
+.level-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.risk-level.high .level-indicator {
+    background: var(--risk-high);
+}
+
+.risk-level.medium .level-indicator {
+    background: var(--risk-medium);
+}
+
+.risk-level.low .level-indicator {
+    background: var(--risk-low);
+}
+
+/* 国別・パートナーグリッド */
+.countries-grid,
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--spacing-unit);
+}
+
+.country-card,
+.partner-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: calc(var(--spacing-unit) * 1.5);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.country-card:hover,
+.partner-card:hover {
+    box-shadow: 0 6px 20px var(--shadow-color);
+    transform: translateY(-4px);
+}
+
+.country-header,
+.partner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-unit);
+}
+
+.country-name,
+.partner-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* 国別リスクの詳細表示スタイル（詳細分析と同様） */
+.risk-summary {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.risk-summary .risk-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface-color);
+}
+
+.risk-summary .risk-item-header {
+    background: var(--surface-secondary);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.risk-summary .risk-item-content {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.risk-summary .risk-item-level {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.risk-summary .risk-item-level.high {
+    background: var(--risk-high);
+    color: white;
+}
+
+.risk-summary .risk-item-level.medium {
+    background: var(--risk-medium);
+    color: white;
+}
+
+.risk-summary .risk-item-level.low {
+    background: var(--risk-low);
+    color: white;
+}
+
+.risk-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.risk-badge.high {
+    background: var(--risk-high);
+    color: white;
+}
+
+.risk-badge.medium {
+    background: var(--risk-medium);
+    color: white;
+}
+
+.risk-badge.low {
+    background: var(--risk-low);
+    color: white;
+}
+
+/* 経済指標グリッド */
+.economic-indicators {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.indicator-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.indicator-header {
+    background: var(--surface-secondary);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.indicator-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.indicator-content {
+    padding: 1.5rem;
+}
+
+.indicator-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.indicator-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* 経済詳細分析のスタイル */
+.economic-overview,
+.human-rights-overview {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    background: var(--surface-secondary);
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.economic-trends-list,
+.positive-factors-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.trend-item,
+.positive-factor-item {
+    background: var(--surface-secondary);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--risk-medium);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.positive-factor-item {
+    border-left-color: var(--risk-low);
+}
+
+.trend-item:hover,
+.positive-factor-item:hover {
+    background: var(--surface-color);
+    transform: translateX(2px);
+    transition: all 0.2s ease;
+}
+
+/* 構造的課題のスタイル */
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.challenge-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border-left: 4px solid var(--risk-high);
+}
+
+.challenge-title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.challenge-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.challenge-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.challenge-impact,
+.challenge-policy {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* 人権関連スタイル */
+.human-rights-concerns {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.concern-area {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--risk-high);
+}
+
+.concern-area-title {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.concern-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.concern-section {
+    background: var(--surface-secondary);
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.concern-section strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.concern-issues,
+.international-response,
+.chinese-position,
+.recent-developments,
+.economic-impact,
+.cultural-preservation,
+.development-projects {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+}
+
+.concern-issues li,
+.international-response li,
+.chinese-position li,
+.recent-developments li,
+.economic-impact li,
+.cultural-preservation li,
+.development-projects li {
+    color: var(--text-secondary);
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.concern-issues li:last-child,
+.international-response li:last-child,
+.chinese-position li:last-child,
+.recent-developments li:last-child,
+.economic-impact li:last-child,
+.cultural-preservation li:last-child,
+.development-projects li:last-child {
+    border-bottom: none;
+}
+
+/* 労働権利分析のスタイル */
+.labor-rights-analysis {
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+}
+
+.labor-status {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.labor-section {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.labor-section:last-child {
+    margin-bottom: 0;
+}
+
+.labor-improvements,
+.persisting-issues,
+.international-monitoring {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* デジタル監視分析のスタイル */
+.digital-surveillance-analysis {
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+}
+
+.surveillance-section {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.surveillance-section:last-child {
+    margin-bottom: 0;
+}
+
+.tech-capabilities,
+.privacy-protections,
+.international-concerns {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* 政策分析のスタイル */
+.policy-analysis {
+    background: var(--surface-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.policy-section {
+    margin-bottom: 2rem;
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.policy-section:last-child {
+    margin-bottom: 0;
+}
+
+.policy-section-title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.policy-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.policy-detail {
+    background: var(--surface-secondary);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+.policy-impact-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.policy-impact,
+.policy-fiscal-impact,
+.policy-social-impact,
+.policy-alignment,
+.policy-trade-volume,
+.policy-strategic-value {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.policy-challenges,
+.policy-achievements,
+.policy-new-initiatives,
+.policy-measures,
+.policy-cooperation {
+    margin-top: 0.75rem;
+}
+
+.policy-challenges ul,
+.policy-achievements ul,
+.policy-new-initiatives ul,
+.policy-measures ul,
+.policy-cooperation ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* 主要な動向と企業対応のスタイル */
+.key-developments,
+.corporate-response {
+    margin: 1.5rem 0;
+    background: var(--surface-secondary);
+    padding: 1.25rem;
+    border-radius: 8px;
+}
+
+.key-developments h5,
+.corporate-response h5 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.developments-list,
+.corporate-response-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.developments-list li,
+.corporate-response-list li {
+    background: var(--surface-color);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.developments-list li:hover,
+.corporate-response-list li:hover {
+    transform: translateX(2px);
+    transition: all 0.2s ease;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .challenges-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .economic-indicators {
+        grid-template-columns: 1fr;
+    }
+
+    .policy-impact-section {
+        gap: 0.5rem;
+    }
+
+    .concern-area {
+        padding: 1rem;
+    }
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] .challenge-card,
+[data-theme="dark"] .concern-area,
+[data-theme="dark"] .labor-rights-analysis,
+[data-theme="dark"] .digital-surveillance-analysis,
+[data-theme="dark"] .policy-analysis,
+[data-theme="dark"] .policy-section,
+[data-theme="dark"] .key-developments,
+[data-theme="dark"] .corporate-response {
+    background: var(--surface-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .economic-overview,
+[data-theme="dark"] .human-rights-overview,
+[data-theme="dark"] .concern-section {
+    background: var(--surface-color);
+}
+
+[data-theme="dark"] .policy-detail,
+[data-theme="dark"] .trend-item,
+[data-theme="dark"] .positive-factor-item {
+    background: var(--surface-color);
+}
+
+[data-theme="dark"] .developments-list li,
+[data-theme="dark"] .corporate-response-list li {
+    background: var(--surface-secondary);
+}
+
+@media (max-width: 1024px) {
+    .dashboard-container {
+        grid-template-areas:
+            "header"
+            "main";
+        grid-template-columns: 1fr;
+        grid-template-rows: var(--header-height) 1fr;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        width: var(--sidebar-width);
+        z-index: 1500;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .criteria-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .criteria-explanations {
+        grid-template-columns: 1fr;
+    }
+
+    .indicators-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .countries-grid,
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .alert-filters {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .alert-filters select {
+        width: 100%;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .risk-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .criteria-explanations {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-unit);
+    }
+
+    .economic-indicators {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-header {
+        padding: 1rem;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card,
+.country-card,
+.partner-card,
+.alert-item {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* フォーカススタイル（アクセシビリティ） */
+.nav-link:focus,
+.quarter-selector:focus,
+.theme-toggle:focus,
+button:focus,
+select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* 国別カード */
+.country-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.country-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.country-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.country-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.country-overview {
+    margin-bottom: 20px;
+}
+
+.country-overview p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.risk-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.risk-item {
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.risk-item-header {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.risk-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.risk-item-level {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.risk-item-summary {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] .country-card {
+    background: var(--card-background);
+    border: 1px solid #374151;
+}
+
+[data-theme="dark"] .country-header {
+    border-bottom-color: #374151;
+}
+
+[data-theme="dark"] .country-overview p {
+    background: #1f2937;
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .risk-item {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+/* 政治分析の詳細スタイル */
+.political-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.political-category-section {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.category-title {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.category-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.category-overview p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* 詳細分析スタイル */
+.detailed-analysis {
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.analysis-subsection {
+    margin-bottom: 1.5rem;
+}
+
+.analysis-subsection:last-child {
+    margin-bottom: 0;
+}
+
+.subsection-title {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* リスト要素のスタイル */
+.key-events-list,
+.upcoming-events-list,
+.implications-list,
+.restructuring-list,
+.multilateral-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.key-event-item,
+.upcoming-event-item,
+.implication-item,
+.restructuring-item,
+.multilateral-item {
+    background: var(--surface-secondary);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.key-event-item:hover,
+.upcoming-event-item:hover,
+.implication-item:hover,
+.restructuring-item:hover,
+.multilateral-item:hover {
+    background: var(--surface-color);
+    transform: translateX(2px);
+    transition: all 0.2s ease;
+}
+
+/* 政策カードのスタイル */
+.policies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.policy-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.policy-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.policy-name {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.policy-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.policy-status.status-実施中 {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+}
+
+.policy-status.status-加速実施 {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+}
+
+.policy-status.status-拡充段階 {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+}
+
+.policy-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.policy-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.policy-impact,
+.policy-timeline {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* 効果グリッドのスタイル */
+.effectiveness-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.effectiveness-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.effectiveness-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.effectiveness-value {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* 二国間関係のスタイル */
+.bilateral-relations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.relation-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.relation-country {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.relation-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.relation-status.status-慎重改善 {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+}
+
+.relation-status.status-実用協力重視 {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+}
+
+.relation-status.status-積極展開 {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+}
+
+.relation-events,
+.relation-challenges,
+.relation-opportunities {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.relation-events ul,
+.relation-challenges,
+.relation-opportunities {
+    color: var(--text-secondary);
+}
+
+.relation-events ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+}
+
+/* 紛争分析のスタイル */
+.conflict-analysis {
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+}
+
+.conflict-status {
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.conflict-aspect {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.conflict-aspect:last-child {
+    margin-bottom: 0;
+}
+
+.conflict-aspect ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* 国内安全保障のスタイル */
+.domestic-security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.security-region-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.region-name {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.security-aspect {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.security-aspect:last-child {
+    margin-bottom: 0;
+}
+
+/* 災害分析のスタイル */
+.disaster-analysis {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.disaster-event {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.disaster-title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.disaster-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.disaster-event-info,
+.disaster-affected-areas,
+.disaster-risk-level,
+.disaster-preparation {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.disaster-impact ul,
+.disaster-response ul,
+.disaster-prevention ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.earthquake-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.earthquake-item {
+    background: var(--surface-secondary);
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--risk-medium);
+}
+
+.earthquake-info {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.earthquake-casualties,
+.earthquake-response {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+/* 健康安全保障のスタイル */
+.health-security-analysis {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.health-topic {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.health-topic-title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.health-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.health-status,
+.health-trend,
+.health-hospital {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.health-surveillance ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.emerging-threats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.threat-item {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--risk-high);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 気候適応のスタイル */
+.climate-adaptation-analysis {
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+}
+
+.climate-strategy,
+.climate-investment {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.climate-tech ul,
+.climate-cooperation ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* ニュースソースのスタイル */
+.news-sources-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.sources-title {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.enhanced-sources-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.source-group {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.source-group-header {
+    background: var(--surface-secondary);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.source-type-icon {
+    font-size: 1.1rem;
+}
+
+.source-type-label {
+    font-size: 0.9rem;
+}
+
+.source-items {
+    padding: 0.5rem;
+}
+
+.enhanced-source-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--surface-secondary);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.enhanced-source-item:hover {
+    background: var(--surface-color);
+    transform: translateX(2px);
+}
+
+.enhanced-source-item:last-child {
+    margin-bottom: 0;
+}
+
+.source-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.source-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.source-link:hover {
+    text-decoration: underline;
+}
+
+.source-date {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.source-type-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.source-type-badge.type-official {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+}
+
+.source-type-badge.type-news {
+    background: var(--risk-medium-bg);
+    color: var(--risk-medium);
+}
+
+.source-type-badge.type-analysis {
+    background: var(--primary-color);
+    color: white;
+}
+
+.source-type-badge.type-report {
+    background: var(--accent-color);
+    color: white;
+}
+
+.source-type-badge.type-academic {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.source-type-badge.type-international {
+    background: var(--risk-high-bg);
+    color: var(--risk-high);
+}
+
+.source-type-badge.type-military {
+    background: var(--risk-high);
+    color: white;
+}
+
+.source-type-badge.type-regional {
+    background: var(--surface-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.source-type-badge.type-science {
+    background: var(--risk-low);
+    color: white;
+}
+
+.no-sources {
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+    background: var(--surface-secondary);
+    border-radius: 6px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .policies-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bilateral-relations {
+        grid-template-columns: 1fr;
+    }
+
+    .domestic-security-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .effectiveness-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .enhanced-source-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .source-type-badge {
+        align-self: flex-end;
+    }
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] .political-category-section {
+    background: var(--surface-secondary);
+    border-left-color: var(--primary-color);
+}
+
+[data-theme="dark"] .detailed-analysis {
+    background: var(--surface-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .policy-card,
+[data-theme="dark"] .relation-card,
+[data-theme="dark"] .security-region-card,
+[data-theme="dark"] .disaster-event,
+[data-theme="dark"] .health-topic {
+    background: var(--surface-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .source-group {
+    background: var(--surface-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .source-group-header {
+    background: var(--surface-color);
+}
+
+[data-theme="dark"] .enhanced-source-item {
+    background: var(--surface-color);
+}
+
+[data-theme="dark"] .enhanced-source-item:hover {
+    background: var(--surface-secondary);
+}
+
+/* アラート */
+.alert-filters {
+    display: flex;
+    gap: var(--spacing-unit);
+}
+
+.alert-filters select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--surface-color);
+    color: var(--text-primary);
+}
+
+.alerts-container,
+.alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.alert-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: var(--spacing-unit);
+    border-left: 4px solid var(--primary-color);
+}
+
+.alert-item.high {
+    border-left-color: var(--risk-high);
+}
+
+.alert-item.medium {
+    border-left-color: var(--risk-medium);
+}
+
+.alert-item.low {
+    border-left-color: var(--risk-low);
+}
+
+/* 詳細モーダル */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: var(--surface-color);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    border-radius: 0;
+}
+
+.modal-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.close {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.risk-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.risk-overview-card {
+    background: var(--surface-secondary);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+}
+
+.risk-overview-card.high {
+    border-left-color: var(--risk-high);
+}
+
+.risk-overview-card.medium {
+    border-left-color: var(--risk-medium);
+}
+
+.risk-overview-card.low {
+    border-left-color: var(--risk-low);
+}
+
+.risk-section {
+    margin-bottom: 4rem;
+    background: var(--surface-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 16px var(--shadow-color);
+}
+
+.risk-section-header {
+    background: var(--surface-secondary);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.risk-section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.risk-section-content {
+    padding: 2rem;
+}
+
+.risk-items {
+    display: grid;
+    gap: 2rem;
+}
+
+.risk-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.risk-item-header {
+    background: var(--surface-secondary);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.risk-item-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.risk-item-content {
+    padding: 1.5rem;
+}
+
+.chart-container {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.sources-list {
+    margin-top: 1.5rem;
+}
+
+.sources-list h4,
+.sources-list h5 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.sources-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sources-list li {
+    margin-bottom: 0.5rem;
+}
+
+.source-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.source-link:hover {
+    text-decoration: underline;
+}
+
+.quarter-selector-modal {
+    margin-bottom: 2rem;
+}
+
+.quarter-selector-modal select {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--surface-color);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+/* パートナー企業詳細分析スタイル */
+.management-analysis,
+.news-analysis {
+    margin-top: 1.5rem;
+}
+
+/* 代表者プロフィール */
+.executive-profile {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-basic {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-item:last-child {
+    border-bottom: none;
+}
+
+.profile-experience {
+    margin-bottom: 1.5rem;
+}
+
+.experience-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.experience-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.experience-item:hover {
+    background: var(--primary-color-light);
+    border-color: var(--primary-color);
+}
+
+.profile-skills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.skills-section,
+.languages-section {
+    padding: 0.75rem;
+    background: var(--surface-color);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+/* リーダーシップスタイル */
+.leadership-analysis {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.leadership-approach,
+.leadership-philosophy {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--surface-color);
+    border-radius: 6px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.initiatives-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.initiative-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 2rem;
+}
+
+.initiative-item::before {
+    content: '🎯';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.75rem;
+}
+
+/* ステークホルダー関係 */
+.stakeholder-relations {
+    display: grid;
+    gap: 1rem;
+}
+
+.stakeholder-item {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+/* リスクと機会 */
+.risk-opportunity-analysis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.risk-factors,
+.opportunities {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+.risk-factors {
+    border-left: 4px solid var(--risk-high);
+}
+
+.opportunities {
+    border-left: 4px solid var(--success-color);
+}
+
+.risk-factors-list,
+.opportunities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.risk-factor-item,
+.opportunity-item {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+}
+
+.risk-factor-item {
+    border-left: 3px solid var(--risk-high);
+}
+
+.opportunity-item {
+    border-left: 3px solid var(--success-color);
+}
+
+/* 株主構成 */
+.ownership-structure {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.ownership-category {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.ownership-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.ownership-details {
+    margin-top: 1rem;
+}
+
+.ownership-description {
+    background: var(--surface-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.key-figures ul,
+.holders-list,
+.themes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.holder-item,
+.theme-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.trading-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.trading-volume,
+.volatility {
+    background: var(--surface-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+/* 株主権利 */
+.shareholder-rights {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.rights-item {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+/* 最近の変動 */
+.recent-changes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.change-item {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid var(--warning-color);
+}
+
+/* ガバナンスへの影響 */
+.governance-impact {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.impact-item {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+/* 四半期業績 */
+.quarterly-results {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.financial-highlights,
+.business-segments {
+    margin-bottom: 1.5rem;
+}
+
+.highlights-list,
+.segments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.highlight-item,
+.segment-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid var(--success-color);
+}
+
+.key-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.metric-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+/* 戦略的取り組み */
+.strategic-initiatives {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.initiative-category {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.initiative-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.initiative-content {
+    margin-top: 1rem;
+}
+
+.targets ul,
+.dx-initiatives ul,
+.target-markets ul,
+.local-partnerships ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.targets li,
+.dx-initiatives li,
+.target-markets li,
+.local-partnerships li {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.investments,
+.dx-investment,
+.investment-plan {
+    background: var(--surface-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+.expected-benefits ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.expected-benefits li {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-left: 3px solid var(--success-color);
+}
+
+/* 市場見通し */
+.market-outlook {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.outlook-item {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.outlook-item:last-child {
+    margin-bottom: 0;
+}
+
+/* メディア分析 */
+.media-analysis {
+    margin-top: 1rem;
+}
+
+.positive-reports,
+.neutral-reports,
+.concern-reports {
+    margin-bottom: 2rem;
+}
+
+.report-category-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+}
+
+.positive-reports .report-category-title {
+    background: var(--success-color);
+    color: white;
+}
+
+.neutral-reports .report-category-title {
+    background: var(--warning-color);
+    color: white;
+}
+
+.concern-reports .report-category-title {
+    background: var(--risk-high);
+    color: white;
+}
+
+.media-report {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.report-headline {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.report-points ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.report-points li {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.report-impact {
+    background: var(--surface-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* アナリスト評価 */
+.analyst-opinions {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.analyst-opinion {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+}
+
+.analyst-firm {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.rating-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.rating-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.rating-badge.rating-buy {
+    background: var(--success-color);
+    color: white;
+}
+
+.rating-badge.rating-overweight {
+    background: var(--primary-color);
+    color: white;
+}
+
+.rating-badge.rating-neutral {
+    background: var(--warning-color);
+    color: white;
+}
+
+.target-price {
+    background: var(--surface-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.rationale,
+.risks {
+    background: var(--surface-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+/* ソーシャルメディア分析 */
+.social-media-sentiment {
+    background: var(--surface-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.sentiment-overall {
+    margin-bottom: 1rem;
+}
+
+.sentiment-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.key-topics ul,
+.concerns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.positive-topic {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-left: 3px solid var(--success-color);
+}
+
+.concern-topic {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-left: 3px solid var(--risk-high);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .profile-skills {
+        grid-template-columns: 1fr;
+    }
+
+    .risk-opportunity-analysis {
+        grid-template-columns: 1fr;
+    }
+
+    .trading-info {
+        grid-template-columns: 1fr;
+    }
+
+    .key-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .rating-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] .executive-profile,
+[data-theme="dark"] .leadership-analysis,
+[data-theme="dark"] .quarterly-results,
+[data-theme="dark"] .market-outlook,
+[data-theme="dark"] .social-media-sentiment {
+    background: var(--surface-secondary);
+}
+
+[data-theme="dark"] .experience-item,
+[data-theme="dark"] .initiative-item,
+[data-theme="dark"] .stakeholder-item,
+[data-theme="dark"] .rights-item,
+[data-theme="dark"] .impact-item,
+[data-theme="dark"] .highlight-item,
+[data-theme="dark"] .segment-item,
+[data-theme="dark"] .metric-item,
+[data-theme="dark"] .media-report {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .experience-item:hover {
+    background: var(--primary-color-light);
+}

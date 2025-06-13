@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リスク監視ダッシュボード</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">📊 リスク監視ダッシュボード</h1>
+                <div class="header-controls">
+                    <select id="quarterSelect" class="quarter-selector">
+                        <option value="2025Q1">2025年 第1四半期</option>
+                        <option value="2024Q4">2024年 第4四半期</option>
+                        <option value="2024Q3">2024年 第3四半期</option>
+                        <option value="2024Q2">2024年 第2四半期</option>
+                    </select>
+                    <button id="darkModeToggle" class="theme-toggle">🌙</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ナビゲーション -->
+        <nav class="sidebar">
+            <ul class="nav-menu">
+                <li><a href="#" data-section="dashboard" class="nav-link active">📊 ダッシュボード</a></li>
+                <li><a href="#" data-section="country-risk" class="nav-link">🌍 国別リスク</a></li>
+                <li><a href="#" data-section="partner-risk" class="nav-link">🏢 パートナーリスク</a></li>
+                <li><a href="#" data-section="alerts" class="nav-link">⚠️ アラート</a></li>
+            </ul>
+        </nav>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- ダッシュボードセクション -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>エグゼクティブサマリー</h2>
+                    <span class="last-updated">最終更新: <span id="currentTime"></span></span>
+                </div>
+
+                <!-- リスクサマリーカード -->
+                <div class="summary-cards">
+                    <div class="card risk-summary-card">
+                        <h3>高リスク注意事項</h3>
+                        <div id="highRiskSummary" class="risk-items"></div>
+                    </div>
+                    <div class="card stats-card">
+                        <h3>監視統計</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value" id="countryCount">7</span>
+                                <span class="stat-label">監視対象国</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="partnerCount">7</span>
+                                <span class="stat-label">パートナー企業</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="alertCount">0</span>
+                                <span class="stat-label">アクティブアラート</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- リアルタイムアラート -->
+                <div class="card alerts-preview">
+                    <h3>最新アラート</h3>
+                    <div id="latestAlerts" class="alerts-list"></div>
+                </div>
+
+                <!-- リスク評価基準（説明書き） -->
+                <div class="evaluation-criteria-section">
+                    <h3>リスク評価基準</h3>
+                    <div class="criteria-explanations">
+                        <div class="criteria-category">
+                            <h4>国別リスク評価</h4>
+                            <div class="criteria-items">
+                                <div class="criteria-item high">
+                                    <span class="level-indicator"></span>
+                                    <span class="criteria-text"><strong>高リスク:</strong>
+                                        政治的不安定、深刻な人権問題、経済構造的問題のいずれかが顕著に存在</span>
+                                </div>
+                                <div class="criteria-item medium">
+                                    <span class="level-indicator"></span>
+                                    <span class="criteria-text"><strong>中リスク:</strong>
+                                        一部のリスク要因は存在するが、制度的安定性により管理可能</span>
+                                </div>
+                                <div class="criteria-item low">
+                                    <span class="level-indicator"></span>
+                                    <span class="criteria-text"><strong>低リスク:</strong>
+                                        政治・経済・社会の安定性が高く、法制度や人権保護体制が確立</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="criteria-category">
+                            <h4>パートナー企業リスク評価</h4>
+                            <div class="criteria-items">
+                                <div class="criteria-item high">
+                                    <span class="level-indicator"></span>
+                                    <span class="criteria-text"><strong>高リスク:</strong>
+                                        財務健全性、ガバナンス、法的コンプライアンスに重大な懸念</span>
+                                </div>
+                                <div class="criteria-item medium">
+                                    <span class="level-indicator"></span>
+                                    <span class="criteria-text"><strong>中リスク:</strong>
+                                        一部リスク要因はあるが業界標準範囲内で運営に大きな支障なし</span>
+                                </div>
+                                <div class="criteria-item low">
+                                    <span class="level-indicator"></span>
+                                    <span class="criteria-text"><strong>低リスク:</strong>
+                                        財務体質、経営体制、コンプライアンス体制が良好で安定的</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 国別リスクセクション -->
+            <section id="country-risk" class="section">
+                <div class="section-header">
+                    <h2>国別リスク分析</h2>
+                </div>
+                <div class="countries-grid" id="countriesGrid"></div>
+            </section>
+
+            <!-- パートナーリスクセクション -->
+            <section id="partner-risk" class="section">
+                <div class="section-header">
+                    <h2>パートナーリスク分析</h2>
+                </div>
+                <div class="partners-grid" id="partnersGrid"></div>
+            </section>
+
+            <!-- アラートセクション -->
+            <section id="alerts" class="section">
+                <div class="section-header">
+                    <h2>アラート管理</h2>
+                    <div class="alert-filters">
+                        <select id="countryFilter">
+                            <option value="">全ての国</option>
+                        </select>
+                        <select id="priorityFilter">
+                            <option value="">全ての優先度</option>
+                            <option value="high">高</option>
+                            <option value="medium">中</option>
+                            <option value="low">低</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="alertsList" class="alerts-container"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 詳細モーダル -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
