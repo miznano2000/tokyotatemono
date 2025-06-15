@@ -2099,7 +2099,8 @@ class RiskDashboard {
             'international': '🌍',
             'military': '⚔️',
             'regional': '🗺️',
-            'science': '🔬'
+            'science': '🔬',
+            'ir': '📈'
         };
         return icons[type] || '📄';
     }
@@ -2114,7 +2115,8 @@ class RiskDashboard {
             'international': '国際メディア',
             'military': '軍事関連',
             'regional': '地域メディア',
-            'science': '科学技術'
+            'science': '科学技術',
+            'ir': 'IR資料'
         };
         return labels[type] || 'その他';
     }
@@ -2246,6 +2248,35 @@ class RiskDashboard {
                                 <h3 class="chart-title">営業利益推移</h3>
                                 <canvas id="operating-profit-chart-${Math.random().toString(36).substr(2, 9)}" width="400" height="300"></canvas>
                             </div>
+                        </div>
+                        <div class="news-sources-section">
+                            <h5 class="sources-title">📰 関連ニュース・資料</h5>
+                            ${this.generateEnhancedSourcesList([
+            {
+                title: '2024年度 第3四半期決算説明資料',
+                url: '#',
+                date: '2024年11月15日',
+                type: 'ir'
+            },
+            {
+                title: '債務比率の上昇が企業財務に与える影響について',
+                url: '#',
+                date: '2024年12月10日',
+                type: 'analysis'
+            },
+            {
+                title: '企業の流動性リスク管理に関する最新動向',
+                url: '#',
+                date: '2024年12月05日',
+                type: 'report'
+            },
+            {
+                title: '金利上昇局面における借入金負担の実態調査',
+                url: '#',
+                date: '2024年11月28日',
+                type: 'news'
+            }
+        ])}
                         </div>
                     </div>
                 </div>
