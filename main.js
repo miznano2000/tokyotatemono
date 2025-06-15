@@ -2165,6 +2165,11 @@ class RiskDashboard {
         this.showCountryDetail(country);
     }
 
+    updatePartnerModalQuarter(partner, quarter) {
+        this.currentQuarter = quarter;
+        this.showPartnerDetail(partner);
+    }
+
     showPartnerDetail(partner) {
         const data = appData.partners[partner];
         if (!data) {
@@ -2177,22 +2182,45 @@ class RiskDashboard {
     }
 
     generatePartnerDetailContent(partner, data) {
+        const currentQuarter = this.currentQuarter || '2025Q1';
+        const quarterData = data.quarters && data.quarters[currentQuarter] ? data.quarters[currentQuarter] : null;
+
         return `
             <div class="modal-header">
                 <h1 class="modal-title">${partner} 詳細リスク分析</h1>
                 <button class="close" onclick="dashboard.closeModal()">&times;</button>
             </div>
             <div class="modal-body">
+                <div class="quarter-selector-modal">
+                    <label for="quarterSelectPartnerModal">対象四半期: </label>
+                    <select id="quarterSelectPartnerModal" onchange="dashboard.updatePartnerModalQuarter('${partner}', this.value)">
+                        <option value="2025Q1" ${currentQuarter === '2025Q1' ? 'selected' : ''}>2025年 第1四半期</option>
+                        <option value="2024Q4" ${currentQuarter === '2024Q4' ? 'selected' : ''}>2024年 第4四半期</option>
+                        <option value="2024Q3" ${currentQuarter === '2024Q3' ? 'selected' : ''}>2024年 第3四半期</option>
+                        <option value="2024Q2" ${currentQuarter === '2024Q2' ? 'selected' : ''}>2024年 第2四半期</option>
+                    </select>
+                </div>
+
                 <div class="risk-overview">
                     <div class="risk-overview-card">
                         <h3>所在国</h3>
                         <div class="indicator-value" style="font-size: 1.5rem; margin: 0;">${data.country}</div>
                     </div>
+                    ${quarterData ? `
+                        <div class="risk-overview-card ${quarterData.riskLevel}">
+                            <h3>全体リスクレベル</h3>
+                            <div class="risk-badge ${quarterData.riskLevel}">${this.getRiskLabel(quarterData.riskLevel)}</div>
+                        </div>
+                    ` : ''}
                 </div>
+
+                ${quarterData && quarterData.management ? this.generatePartnerManagementSection(quarterData.management) : ''}
+                ${quarterData && quarterData.financial ? this.generatePartnerFinancialSection(quarterData.financial) : ''}
+                ${quarterData && quarterData.operational ? this.generatePartnerOperationalSection(quarterData.operational) : ''}
 
                 <div class="risk-section">
                     <div class="risk-section-header">
-                        <h2 class="risk-section-title">経営リスク分析</h2>
+                        <h2 class="risk-section-title">経営リスク分析（概要）</h2>
                     </div>
                     <div class="risk-section-content">
                         <div class="risk-analysis-text">
@@ -2203,13 +2231,61 @@ class RiskDashboard {
 
                 <div class="risk-section">
                     <div class="risk-section-header">
-                        <h2 class="risk-section-title">財務リスク分析</h2>
+                        <h2 class="risk-section-title">財務リスク分析（概要）</h2>
                     </div>
                     <div class="risk-section-content">
                         <div class="risk-analysis-text">
                             ${data.riskSummary.financialRisk}
                         </div>
                     </div>
+                </div>
+            </div>
+        `;
+    }
+
+    generatePartnerManagementSection(management) {
+        return `
+            <div class="risk-section">
+                <div class="risk-section-header">
+                    <h2 class="risk-section-title">経営陣・ガバナンス分析</h2>
+                </div>
+                <div class="risk-section-content">
+                    ${management.ceo ? this.generateEnhancedManagementItem('CEO', management.ceo) : ''}
+                    ${management.board ? this.generateEnhancedManagementItem('取締役会', management.board) : ''}
+                    ${management.governance ? this.generateEnhancedManagementItem('コーポレートガバナンス', management.governance) : ''}
+                    ${management.strategy ? this.generateEnhancedManagementItem('戦略・事業展開', management.strategy) : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    generatePartnerFinancialSection(financial) {
+        return `
+            <div class="risk-section">
+                <div class="risk-section-header">
+                    <h2 class="risk-section-title">財務・業績分析</h2>
+                </div>
+                <div class="risk-section-content">
+                    ${financial.performance ? this.generateEnhancedManagementItem('業績概況', financial.performance) : ''}
+                    ${financial.debt ? this.generateEnhancedManagementItem('負債状況', financial.debt) : ''}
+                    ${financial.liquidity ? this.generateEnhancedManagementItem('流動性・資金調達', financial.liquidity) : ''}
+                    ${financial.investment ? this.generateEnhancedManagementItem('投資・資本配分', financial.investment) : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    generatePartnerOperationalSection(operational) {
+        return `
+            <div class="risk-section">
+                <div class="risk-section-header">
+                    <h2 class="risk-section-title">事業運営分析</h2>
+                </div>
+                <div class="risk-section-content">
+                    ${operational.market ? this.generateEnhancedManagementItem('市場環境', operational.market) : ''}
+                    ${operational.competition ? this.generateEnhancedManagementItem('競合状況', operational.competition) : ''}
+                    ${operational.regulatory ? this.generateEnhancedManagementItem('規制環境', operational.regulatory) : ''}
+                    ${operational.sustainability ? this.generateEnhancedManagementItem('持続可能性・ESG', operational.sustainability) : ''}
                 </div>
             </div>
         `;
