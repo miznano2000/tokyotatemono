@@ -2068,7 +2068,7 @@ select:focus {
 }
 
 .risk-section-content {
-    padding: 2rem;
+    padding: calc(var(--spacing-unit) * 1.5);
 }
 
 .risk-items {
@@ -2852,4 +2852,59 @@ select:focus {
 
 .risk-section-content {
     padding: 1.5rem;
+}
+
+/* 財務チャートコンテナのスタイル */
+.financial-charts-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.chart-wrapper {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: calc(var(--spacing-unit) * 1.5);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.chart-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-unit);
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 300px !important;
+    border-radius: 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .financial-charts-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-unit);
+    }
+
+    .chart-wrapper canvas {
+        height: 250px !important;
+    }
+}
+
+/* ダークモード対応 */
+[data-theme="dark"] .chart-wrapper {
+    background: var(--surface-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .chart-title {
+    color: var(--text-primary);
+    border-bottom-color: var(--primary-color);
 }
