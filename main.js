@@ -786,6 +786,10 @@ const appData = {
     partners: {
         'パートナー企業A': {
             country: '中国',
+            riskSummary: {
+                managementRisk: '新CEOの就任による急激な経営方針転換リスクが存在。デジタル化推進と国際展開の加速により、組織内の混乱や投資回収期間の長期化が懸念される。一方、創業者ファミリーによる51%の株式保有により、安定的なガバナンス基盤は維持。',
+                financialRisk: '堅調な業績（売上高前年比12%増）と健全な財務体質（ネット有利子負債比率45.2%）を維持。ただし、海外事業拡大に伴う投資負担増加と不動産市況の変動リスクに要注意。'
+            },
             quarters: {
                 '2025Q1': {
                     riskLevel: 'medium',
@@ -1129,87 +1133,24 @@ const appData = {
             }
         },
         'パートナー企業B': {
-            country: 'タイ',
-            quarters: {
-                '2025Q1': {
-                    riskLevel: 'low',
-                    management: {
-                        ceo: {
-                            comment: '現CEO就任から3年目で安定した経営を継続。地元出身で豊富な不動産開発経験を持ち、地域密着型の事業展開を推進。',
-                            sources: []
-                        },
-                        shareholders: {
-                            comment: '地元財閥系グループが過半数を保有し、長期安定的な経営方針を維持。外国人投資家の持分は20%程度。',
-                            sources: []
-                        }
-                    },
-                    news: {
-                        releases: {
-                            comment: 'タイ政府のインフラ投資計画に連動した新規プロジェクトの受注を発表。収益の安定化が期待される。',
-                            sources: []
-                        },
-                        media: {
-                            comment: '地元メディアでは持続可能な成長戦略が評価されており、特にESG経営への取り組みが注目されている。',
-                            sources: []
-                        }
-                    },
-                    financialStatus: {
-                        rating: { value: 'A-', comment: '格付けは良好を維持' }
-                    }
-                }
+            country: 'ベトナム',
+            riskSummary: {
+                managementRisk: '若手経営陣による積極的な事業展開戦略により、急速な成長を遂げているが、経験不足による意思決定リスクが存在。現地政府との関係は良好で、開発プロジェクトの認可取得がスムーズ。',
+                financialRisk: '潤沢な手元資金と低い負債比率を維持しているものの、インフレ圧力による建設コスト上昇と為替変動リスクが懸念材料。新規プロジェクトの資金調達は順調。'
             }
         },
         'パートナー企業C': {
-            country: 'インドネシア',
-            quarters: {
-                '2025Q1': {
-                    riskLevel: 'medium',
-                    management: {
-                        ceo: {
-                            comment: '前年に就任した新CEOが事業構造改革を推進中。コスト削減と事業の選択と集中により収益性向上を図っている。',
-                            sources: []
-                        },
-                        shareholders: {
-                            comment: '政府系ファンドが筆頭株主として30%を保有。民間投資家との連携により事業拡大を目指している。',
-                            sources: []
-                        }
-                    },
-                    news: {
-                        releases: {
-                            comment: '前四半期の業績悪化を受けて、事業再編計画を発表。為替ヘッジ戦略の見直しと運営効率化を推進。',
-                            sources: []
-                        },
-                        media: {
-                            comment: '業界アナリストからは短期的な課題はあるものの、中長期的な成長戦略は評価されている。',
-                            sources: []
-                        }
-                    },
-                    financialStatus: {
-                        rating: { value: 'BBB', comment: '格付けは安定だが注意深く監視が必要' }
-                    }
-                }
+            country: 'シンガポール',
+            riskSummary: {
+                managementRisk: '経験豊富な経営陣と強固なコーポレートガバナンス体制を確立。グローバル展開における豊富な実績があり、リスク管理体制も充実。政府系ファンドの出資により、安定的な経営基盤を保持。',
+                financialRisk: '高い収益性（ROE 15%）と充実した自己資本を維持。アジア全域での分散投資により、地域リスクを軽減。ただし、高級不動産市場への依存度が高く、市況変動の影響を受けやすい。'
             }
         },
         'パートナー企業D': {
-            country: 'アメリカ',
-            quarters: {
-                '2025Q1': {
-                    riskLevel: 'low',
-                    financialStatus: {
-                        rating: { value: 'AA-', comment: '格付けは優良を維持' }
-                    }
-                }
-            }
-        },
-        'パートナー企業E': {
-            country: 'オーストラリア',
-            quarters: {
-                '2025Q1': {
-                    riskLevel: 'low',
-                    financialStatus: {
-                        rating: { value: 'A+', comment: '格付けは優良を維持' }
-                    }
-                }
+            country: '日本',
+            riskSummary: {
+                managementRisk: '保守的な経営方針により、安定性は高いが、イノベーションや海外展開への対応が遅れ気味。後継者育成と組織の若返りが課題。一方、取引先との長期的な信頼関係は強み。',
+                financialRisk: '安定的なキャッシュフローと低い負債比率を維持。しかし、国内市場の成熟化と人口減少による長期的な成長リスクが存在。設備投資の効率性向上が必要。'
             }
         }
     },
@@ -1261,7 +1202,6 @@ class RiskDashboard {
     constructor() {
         this.currentQuarter = appData.currentQuarter;
         this.currentSection = 'dashboard';
-        this.init();
     }
 
     init() {
@@ -1409,8 +1349,11 @@ class RiskDashboard {
 
         // 高リスクパートナーを検索
         Object.entries(appData.partners).forEach(([partner, data]) => {
-            const quarterData = data.quarters[this.currentQuarter];
-            if (quarterData?.riskLevel === 'high') {
+            const riskSummary = data.riskSummary;
+            if (riskSummary && (
+                riskSummary.managementRisk.includes('高リスク') ||
+                riskSummary.financialRisk.includes('高リスク')
+            )) {
                 highRiskItems.push(`${partner}: 高リスク評価`);
             }
         });
@@ -1496,18 +1439,23 @@ class RiskDashboard {
 
     renderPartners() {
         const html = Object.entries(appData.partners).map(([partner, data]) => {
-            const quarterData = data.quarters[this.currentQuarter] || {};
-            const riskLevel = quarterData.riskLevel || 'low';
-
             return `
                 <div class="partner-card" onclick="dashboard.showPartnerDetail('${partner}')">
                     <div class="partner-header">
                         <span class="partner-name">${partner}</span>
-                        <span class="risk-badge ${riskLevel}">${this.getRiskLabel(riskLevel)}</span>
                     </div>
                     <div class="partner-info">
                         <div class="info-item">所在国: ${data.country}</div>
-                        <div class="info-item">財務状況: ${quarterData.financialStatus?.rating?.value || 'N/A'}</div>
+                        <div class="info-item risk-summary">
+                            <div class="risk-item">
+                                <strong>経営リスク:</strong>
+                                <p>${data.riskSummary.managementRisk}</p>
+                            </div>
+                            <div class="risk-item">
+                                <strong>財務リスク:</strong>
+                                <p>${data.riskSummary.financialRisk}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -2218,180 +2166,53 @@ class RiskDashboard {
     }
 
     showPartnerDetail(partner) {
-        console.log('showPartnerDetail called with partner:', partner);
         const data = appData.partners[partner];
-        console.log('Partner data:', data);
         if (!data) {
             console.error('No data found for partner:', partner);
             return;
         }
 
-        const currentQuarter = document.querySelector('.quarter-selector').value;
-        console.log('Current quarter:', currentQuarter);
-        const quarterData = data.quarters[currentQuarter];
-        console.log('Quarter data:', quarterData);
-
-        const content = this.generatePartnerDetailContent(partner, quarterData);
-        console.log('Generated content length:', content.length);
+        const content = this.generatePartnerDetailContent(partner, data);
         this.showModal(content);
-
-        // グラフを描画
-        setTimeout(() => {
-            if (quarterData.financialStatus) {
-                console.log('Drawing charts for financial status');
-                this.renderEconomicChart('chart-格付け', '格付け', quarterData.financialStatus.rating);
-                this.renderEconomicChart('chart-流動性', '流動性', quarterData.financialStatus.liquidity);
-                this.renderEconomicChart('chart-収益性', '収益性', quarterData.financialStatus.profitability);
-                this.renderEconomicChart('chart-安定性', '安定性', quarterData.financialStatus.stability);
-            } else {
-                console.log('No financial status data found');
-            }
-        }, 200);
     }
 
     generatePartnerDetailContent(partner, data) {
-        const partnerInfo = appData.partners[partner];
-        const riskLevel = data.riskLevel || 'low';
-        const riskLabel = this.getRiskLabel(riskLevel);
-
         return `
             <div class="modal-header">
                 <h1 class="modal-title">${partner} 詳細リスク分析</h1>
                 <button class="close" onclick="dashboard.closeModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="quarter-selector-modal">
-                    <label for="quarterSelectModal">対象四半期: </label>
-                    <select id="quarterSelectModal" onchange="dashboard.updatePartnerModalQuarter('${partner}', this.value)">
-                        <option value="2025Q1" ${this.currentQuarter === '2025Q1' ? 'selected' : ''}>2025年 第1四半期</option>
-                        <option value="2024Q4" ${this.currentQuarter === '2024Q4' ? 'selected' : ''}>2024年 第4四半期</option>
-                        <option value="2024Q3" ${this.currentQuarter === '2024Q3' ? 'selected' : ''}>2024年 第3四半期</option>
-                        <option value="2024Q2" ${this.currentQuarter === '2024Q2' ? 'selected' : ''}>2024年 第2四半期</option>
-                    </select>
-                </div>
-
                 <div class="risk-overview">
-                    <div class="risk-overview-card ${riskLevel}">
-                        <h3>総合リスク</h3>
-                        <div class="risk-badge ${riskLevel}">${riskLabel}</div>
-                    </div>
-                    <div class="risk-overview-card low">
+                    <div class="risk-overview-card">
                         <h3>所在国</h3>
-                        <div class="indicator-value" style="font-size: 1.5rem; margin: 0;">${partnerInfo.country}</div>
-                    </div>
-                    <div class="risk-overview-card ${this.getRatingRiskLevel(data.financialStatus?.rating?.value)}">
-                        <h3>格付け</h3>
-                        <div class="indicator-value" style="font-size: 1.5rem; margin: 0;">${data.financialStatus?.rating?.value || 'N/A'}</div>
+                        <div class="indicator-value" style="font-size: 1.5rem; margin: 0;">${data.country}</div>
                     </div>
                 </div>
 
-                ${this.generateManagementSection(data.management)}
-                ${this.generateNewsSection(data.news)}
-                ${this.generateFinancialSection(data.financialStatus)}
-            </div>
-        `;
-    }
-
-    generateManagementSection(management) {
-        if (!management) return '';
-
-        return `
-            <div class="risk-section">
-                <div class="risk-section-header">
-                    <h2 class="risk-section-title">経営体制</h2>
-                </div>
-                <div class="risk-section-content">
-                    <div class="risk-items">
-                        ${this.generateEnhancedManagementItem('代表者情報', management.ceo)}
-                        ${this.generateEnhancedManagementItem('主要株主構成', management.shareholders)}
+                <div class="risk-section">
+                    <div class="risk-section-header">
+                        <h2 class="risk-section-title">経営リスク分析</h2>
                     </div>
-                </div>
-            </div>
-        `;
-    }
-
-    generateNewsSection(news) {
-        if (!news) return '';
-
-        return `
-            <div class="risk-section">
-                <div class="risk-section-header">
-                    <h2 class="risk-section-title">関連ニュース</h2>
-                </div>
-                <div class="risk-section-content">
-                    <div class="risk-items">
-                        ${this.generateEnhancedNewsItem('ニュースリリース・IR資料・決算資料', news.releases)}
-                        ${this.generateEnhancedNewsItem('メディア報道', news.media)}
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    generateFinancialSection(financialStatus) {
-        if (!financialStatus) return '';
-
-        return `
-            <div class="risk-section">
-                <div class="risk-section-header">
-                    <h2 class="risk-section-title">財務状況</h2>
-                </div>
-                <div class="risk-section-content">
-                    <div class="risk-items">
-                        ${this.generateFinancialIndicator('格付け', financialStatus.rating)}
-                        ${this.generateFinancialIndicator('流動性', financialStatus.liquidity)}
-                        ${this.generateFinancialIndicator('収益性', financialStatus.profitability)}
-                        ${this.generateFinancialIndicator('安定性', financialStatus.stability)}
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    generateFinancialIndicator(title, data) {
-        if (!data) return '';
-
-        const chartId = `chart-${title.replace(/\s+/g, '-').toLowerCase()}`;
-
-        return `
-            <div class="risk-item">
-                <div class="risk-item-header">
-                    <h4 class="risk-item-title">${title}</h4>
-                </div>
-                <div class="risk-item-content">
-                    <div class="indicator-description">${data.comment || 'データなし'}</div>
-                    <div class="chart-container">
-                        <canvas id="${chartId}" width="400" height="200"></canvas>
-                    </div>
-                    ${data.sources ? `
-                        <div class="sources-list">
-                            <h4>関連資料</h4>
-                            <ul>
-                                ${data.sources.map(source => `
-                                    <li><a href="${source.url}" class="source-link">${source.title}</a> (${source.date})</li>
-                                `).join('')}
-                            </ul>
+                    <div class="risk-section-content">
+                        <div class="risk-analysis-text">
+                            ${data.riskSummary.managementRisk}
                         </div>
-                    ` : ''}
+                    </div>
+                </div>
+
+                <div class="risk-section">
+                    <div class="risk-section-header">
+                        <h2 class="risk-section-title">財務リスク分析</h2>
+                    </div>
+                    <div class="risk-section-content">
+                        <div class="risk-analysis-text">
+                            ${data.riskSummary.financialRisk}
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
-    }
-
-    getRatingRiskLevel(rating) {
-        if (!rating) return 'low';
-
-        const highRatings = ['AAA', 'AA+', 'AA', 'AA-'];
-        const mediumRatings = ['A+', 'A', 'A-', 'BBB+', 'BBB'];
-
-        if (highRatings.includes(rating)) return 'low';
-        if (mediumRatings.includes(rating)) return 'medium';
-        return 'high';
-    }
-
-    updatePartnerModalQuarter(partner, quarter) {
-        this.currentQuarter = quarter;
-        this.showPartnerDetail(partner);
     }
 
     showModal(content) {
@@ -3443,3 +3264,6 @@ class RiskDashboard {
 
 // アプリケーション起動
 const dashboard = new RiskDashboard();
+document.addEventListener('DOMContentLoaded', () => {
+    dashboard.init();
+});
